@@ -1,0 +1,543 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Cópia de Aula06.ipynb",
+      "provenance": [],
+      "collapsed_sections": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/yannmalini/Python/blob/main/Otimiza%C3%A7%C3%A3o%20Linear%20com%20Python\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "gFK-kpUrL5af"
+      },
+      "source": [
+        "Slides da aula [aqui](https://drive.google.com/file/d/1Xnu_xVjpblr7Ljbb8DEqUrOR-WdqGBwW/view?usp=sharing)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "fNWl3b7jANDe"
+      },
+      "source": [
+        "# Otimização Linear (Programação Linear)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "wHlZ20W-Lvls"
+      },
+      "source": [
+        "A otimização linear (ou programação linear) é um grupo de algoritmos inseridos no contexto da Pesquisa Operacional.\n",
+        "\n",
+        "Este grupo de algoritmos tem por objetivo encontrar **a melhor solução** dentro de um universo de soluções possíveis.\n",
+        "\n",
+        "Este universo de soluções possíveis é restringido (limitado) pelas suas condições, ou **restrições**.\n",
+        "\n",
+        "Os problemas de otimização linear então focam em **maximizar** algum resultado operacional (como lucro ou receita), ou então, em **minimizar** algum resutado operacional (como tempo de produção ou custos)."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "eaGEmhpcNm3X"
+      },
+      "source": [
+        "Nosso problema de hoje é: Uma empresa de pesca que pratica 2 pescarias diferentes (pesca de 2 espécies), e precisa decidir quantos barcos vão fazer a pescaria A e quantos barcos vão fazer a pescaria B.\n",
+        "\n",
+        "Cada barco que vai pescar a espécie A volta com 20 mil de lucro, precisa de 6 tripulantes e demora 40 horas para concluir a atividade.\n",
+        "\n",
+        "Cada barco que vai pescar a espécie B volta com 10 mil de lucro, também precisa de 6 tripulantes e demora 10 horas para concluir.\n",
+        "\n",
+        "Vale lembrar que os recursos disponíveis são limitados, esta empresa então consegue arcar com somente 1000 horas de atividade por semana e dispõe de 240 tripulantes para embarque. Nesta situação, a empresa deve escolher a melhor maneira para alocar seus recursos, de modo que lhe traga o melhor resultado operacional, neste caso, um lucro máximo.\n",
+        "\n",
+        "A pergunta aqui então é: Quantos barcos eu devo enviar para cada pescaria, de modo a obter o maior lucro possível?"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "MnZYSTiYPgHB"
+      },
+      "source": [
+        "Podemos resolver este problema de forma matricial, ou de forma gráfica.\n",
+        "\n",
+        "Veja a resolução gráfica [aqui](https://drive.google.com/file/d/1IvSjYRT3NNTZH1dYWJCXRkPKgaX5PvRs/view?usp=sharing)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "aeM072XvPqai"
+      },
+      "source": [
+        "Abaixo vamos reconstruir a solução gráfica usando Matplotlib."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "hUl2-taH_Kgi"
+      },
+      "source": [
+        "import numpy as np\n",
+        "import matplotlib.pyplot as plt"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 297
+        },
+        "id": "0t6DWMvlaS28",
+        "outputId": "d3b4ebc1-a854-4fcd-a505-ff88f682a785"
+      },
+      "source": [
+        "fig, ax = plt.subplots()\n",
+        "\n",
+        "ax.scatter([0,40],[40,0])\n",
+        "ax.scatter([0,25],[100,0])\n",
+        "\n",
+        "x1 = np.linspace(0,40)\n",
+        "y1 = np.linspace(40,0)\n",
+        "ax.plot(x1,y1)\n",
+        "\n",
+        "x2 = np.linspace(0,25)\n",
+        "y2 = np.linspace(100,0)\n",
+        "ax.plot(x2,y2)\n",
+        "\n",
+        "ax.fill_between(x1,y1,0, color='blue')\n",
+        "ax.fill_between(x2,y2,0, color='orange', alpha=0.5)\n",
+        "\n",
+        "plt.tight_layout()\n",
+        "plt.show()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "image/png": "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\n",
+            "text/plain": [
+              "<Figure size 432x288 with 1 Axes>"
+            ]
+          },
+          "metadata": {
+            "tags": [],
+            "needs_background": "light"
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "MoJYAOIlP0r1"
+      },
+      "source": [
+        "# Resolvendo uma otimização linear"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "cl8Wmsq0P5uE"
+      },
+      "source": [
+        "No Python existem várias bibliotecas para otimização linear. Uma das mais conhecidas e mais simples de usar é a [PuLP](https://coin-or.github.io/pulp/).\n",
+        "\n",
+        "Vamos começar instalando a biblioteca."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "bP3argOEcnB1",
+        "outputId": "4b88993c-c9c0-4e4a-e9bd-01571ed8ef11"
+      },
+      "source": [
+        "!pip install pulp"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Collecting pulp\n",
+            "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/14/c4/0eec14a0123209c261de6ff154ef3be5cad3fd557c084f468356662e0585/PuLP-2.4-py3-none-any.whl (40.6MB)\n",
+            "\u001b[K     |████████████████████████████████| 40.6MB 1.2MB/s \n",
+            "\u001b[?25hCollecting amply>=0.1.2\n",
+            "  Downloading https://files.pythonhosted.org/packages/f3/c5/dfa09dd2595a2ab2ab4e6fa7bebef9565812722e1980d04b0edce5032066/amply-0.1.4-py3-none-any.whl\n",
+            "Requirement already satisfied: pyparsing in /usr/local/lib/python3.7/dist-packages (from amply>=0.1.2->pulp) (2.4.7)\n",
+            "Requirement already satisfied: docutils>=0.3 in /usr/local/lib/python3.7/dist-packages (from amply>=0.1.2->pulp) (0.17)\n",
+            "Installing collected packages: amply, pulp\n",
+            "Successfully installed amply-0.1.4 pulp-2.4\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "CitGITD-QNeJ"
+      },
+      "source": [
+        "Muito bem, agora podemos importar a biblioteca."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "3v9_qJYccvWp"
+      },
+      "source": [
+        "from pulp import *"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "5HrdSAYLSmip"
+      },
+      "source": [
+        "## Definindo o problema"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "yeOMA-XNQQzz"
+      },
+      "source": [
+        "Começamos definindo qual o tipo do nosso problema, que neste caso é de Maximização."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "NLH6kkZQc_j-",
+        "outputId": "845fa628-e9f5-4987-f404-9ce5a8facc2e"
+      },
+      "source": [
+        "prob = LpProblem('Lucro das pescarias', LpMaximize)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "/usr/local/lib/python3.7/dist-packages/pulp/pulp.py:1199: UserWarning: Spaces are not permitted in the name. Converted to '_'\n",
+            "  warnings.warn(\"Spaces are not permitted in the name. Converted to '_'\")\n"
+          ],
+          "name": "stderr"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "5i1kSG1XQfXs"
+      },
+      "source": [
+        "Na sequência definimos quais variáveis fazem parte da nossa função objetivo ($ L = 20A + 10B $). Neste caso, são as variáveis: Número de barcos para a pescaria A, e número de barcos para a pescaria B. Logo, $ BA $ e $ BB $.\n",
+        "\n",
+        "Definimos que estas variáveis são do tipo *integer* pois não podemos ter frações de um barco (Para variáveis fracionárias use a categoria *continuous*)."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "FO_de2kKdQu-"
+      },
+      "source": [
+        "# integer para inteiros e continuous para reais\n",
+        "BA = LpVariable('Barcos da pescaria A', cat='integer')\n",
+        "BB = LpVariable('Barcos da pescaria B', cat='integer')"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "OTuOfl_VR0qb"
+      },
+      "source": [
+        "Muito bem, agora vamos definir a nossa função objetivo, que representa o lucro da empresa.\n",
+        "\n",
+        "$$ L = 20A + 10B $$"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Kt4gJ5rXSHKr"
+      },
+      "source": [
+        "NOTA: Veja que no PuLP, para adicionar informações ao nosso problema de otimização, nós adicionamos os termos à nossa variável de problema `prob` usando o operador de incremento `+=`."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "_UVgXPdUd7kp"
+      },
+      "source": [
+        "# função objetivo\n",
+        "prob += 20*BA + 10*BB, 'Lucro das duas pescarias'"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "HosjbaK1SXgG"
+      },
+      "source": [
+        "Agora devemos adicionar as restrições do nosso problema (nossas inequações)."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "5CvavZ-wech8"
+      },
+      "source": [
+        "# RESTRIÇÕES = CONDIÇÕES\n",
+        "prob += 40*BA + 10*BB <= 1000, 'máximo de horas disponíveis'\n",
+        "prob += 6*BA + 6*BB <= 240, 'máximo de tripulantes disponíveis'\n",
+        "prob += BA >= 0, 'mínimo de barcos para pescaria A'\n",
+        "prob += BB >= 0, 'mínimo de barcos para pescaria B'"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "FbQ7M9UCSq7v"
+      },
+      "source": [
+        "Agora que já definimos todos os termos do nosso problema (Função Objetivo, Variáveis e Restrições), podemos usar um algoritmo de solver para encontrar a melhor solução possível."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "fvuUhPgGSoko"
+      },
+      "source": [
+        "## Resolvendo o problema"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "VkLcXGgvS6I8"
+      },
+      "source": [
+        "Para resolver o problema linear chamamos o método `.solve()`\n",
+        "\n",
+        "Os princiais códigos de solução são:\n",
+        "*    **1** foi encontrada uma solução ótima\n",
+        "*    **-1** solução inviável (a solução viola alguma restrição)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "cm0dhAsrgLgE",
+        "outputId": "a1de3834-3822-4cee-b9ca-72e6c3f2c0a4"
+      },
+      "source": [
+        "prob.solve()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "-1"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 90
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "m1wtGGetTv7U"
+      },
+      "source": [
+        "Vamos organizar este resultado..."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "cWGTgS_Cgp85",
+        "outputId": "e2dcb1aa-49b1-4452-a002-fd30706b30a9"
+      },
+      "source": [
+        "resultado = LpStatus[prob.status]\n",
+        "print('Resultado', resultado)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Resultado Infeasible\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "YQlaITFbTyOp"
+      },
+      "source": [
+        "Muito bem, agora vamos ver qual foi o valor da função obetivo (Lucro) na solução ótima."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "S5YYhdIvg-BY",
+        "outputId": "264834f7-16fc-4bf0-f283-f98349a3094a"
+      },
+      "source": [
+        "lucro = value(prob.objective)\n",
+        "print('Lucro final de', lucro)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Lucro final de 333.333334\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Qgpk9DDzULph"
+      },
+      "source": [
+        "Para alcançar este lucro, quais os valores das variáveis da função objetivo? Ou seja, quantos barcos devem fazer a pescaria A e a pescaria B?"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "jyJlqhHghaRh",
+        "outputId": "aebce8a1-11ec-48bd-a030-be635cadbdaa"
+      },
+      "source": [
+        "for v in prob.variables():\n",
+        "  print(v.name, '=', v.varValue)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Barcos_da_pescaria_A = 1.6666667\n",
+            "Barcos_da_pescaria_B = 15.0\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "t_qaot7wUq1a"
+      },
+      "source": [
+        "Finalizada a resolução do nosso problema, lembre-se: O verdadeiro valor da otimização linear é o poder de criar hipóteses de negócios para tomar decisões estratégicas, baseadas no nosso modelo linear construído.\n",
+        "\n",
+        "Hipóteses como E SE a empresa tivesse 2000 horas disponíveis, qual seria o lucro possível? E SE a empresa tivesse mais tripulantes, qual seria o lucro? E SE a empresa quisesse atingir um lucro de 2500 mil, quantos barcos seriam necessários, para cada pescaria?\n",
+        "\n",
+        "E assim, por diante. A criatividade aqui é ponto chave, e quanto mais você conhece daquele negócio/atividade, melhor vai ficar o seu modelo linear e melhores serão suas hipóteses, extraindo assim um maior valor desta ferramenta."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "yzhYme8rXN7x"
+      },
+      "source": [
+        "# Exemplo de trabalho acadêmico"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "opdMrTRPWxjO"
+      },
+      "source": [
+        "Deixo o link para uma tese de doutorado sobre o assunto [aqui](https://drive.google.com/file/d/1xwQKjs4Kxh4i7f1bBtAf5Ps8dX0SaUdI/view?usp=sharing)."
+      ]
+    }
+  ]
+}
