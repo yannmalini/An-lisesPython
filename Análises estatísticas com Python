@@ -1,0 +1,2096 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Aula_05.ipynb",
+      "provenance": [],
+      "toc_visible": true,
+      "authorship_tag": "ABX9TyM2U3R9d2IDv9A9CAFtCehy",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/yannmalini/Python/blob/main/An%C3%A1lises%20estat%C3%ADsticas%20com%20Python\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "SkzhKBUxFGQ8"
+      },
+      "source": [
+        "# Análises Estatísticas\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "y-ufRJOtFMdp"
+      },
+      "source": [
+        "import pandas as pd\n",
+        "import matplotlib.pyplot as plt\n",
+        "from pathlib import Path"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "hn7fEZvEMinM"
+      },
+      "source": [
+        "arquivo = Path().cwd().joinpath('Experimento.xlsx')"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 824
+        },
+        "id": "lGOjqE1lM58n",
+        "outputId": "090cc047-7fe3-4142-bbe6-c5a439012579"
+      },
+      "source": [
+        "dados =  pd.read_excel(str(arquivo))\n",
+        "dados"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>Dieta</th>\n",
+              "      <th>Repetição</th>\n",
+              "      <th>Ganho de peso (g)</th>\n",
+              "      <th>Temperatura (°C)</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>573.894122</td>\n",
+              "      <td>25.432418</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>1</td>\n",
+              "      <td>2</td>\n",
+              "      <td>425.849963</td>\n",
+              "      <td>25.676273</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>1</td>\n",
+              "      <td>3</td>\n",
+              "      <td>664.400209</td>\n",
+              "      <td>26.079955</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>1</td>\n",
+              "      <td>4</td>\n",
+              "      <td>1840.961499</td>\n",
+              "      <td>27.776376</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>1</td>\n",
+              "      <td>5</td>\n",
+              "      <td>1210.270773</td>\n",
+              "      <td>28.243019</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>5</th>\n",
+              "      <td>2</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1397.175764</td>\n",
+              "      <td>28.876681</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>6</th>\n",
+              "      <td>2</td>\n",
+              "      <td>2</td>\n",
+              "      <td>831.709630</td>\n",
+              "      <td>28.277457</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>7</th>\n",
+              "      <td>2</td>\n",
+              "      <td>3</td>\n",
+              "      <td>1069.383821</td>\n",
+              "      <td>28.749353</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>8</th>\n",
+              "      <td>2</td>\n",
+              "      <td>4</td>\n",
+              "      <td>264.485060</td>\n",
+              "      <td>24.947620</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>9</th>\n",
+              "      <td>2</td>\n",
+              "      <td>5</td>\n",
+              "      <td>1007.076086</td>\n",
+              "      <td>28.313167</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>10</th>\n",
+              "      <td>3</td>\n",
+              "      <td>1</td>\n",
+              "      <td>2117.994620</td>\n",
+              "      <td>31.404407</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>11</th>\n",
+              "      <td>3</td>\n",
+              "      <td>2</td>\n",
+              "      <td>639.877395</td>\n",
+              "      <td>28.898926</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>12</th>\n",
+              "      <td>3</td>\n",
+              "      <td>3</td>\n",
+              "      <td>1295.192738</td>\n",
+              "      <td>28.652111</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>13</th>\n",
+              "      <td>3</td>\n",
+              "      <td>4</td>\n",
+              "      <td>960.082651</td>\n",
+              "      <td>27.984561</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>14</th>\n",
+              "      <td>3</td>\n",
+              "      <td>5</td>\n",
+              "      <td>750.021146</td>\n",
+              "      <td>27.315089</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>15</th>\n",
+              "      <td>4</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1605.648771</td>\n",
+              "      <td>29.480823</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>16</th>\n",
+              "      <td>4</td>\n",
+              "      <td>2</td>\n",
+              "      <td>1776.456860</td>\n",
+              "      <td>29.283492</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>17</th>\n",
+              "      <td>4</td>\n",
+              "      <td>3</td>\n",
+              "      <td>2143.892943</td>\n",
+              "      <td>31.102997</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>18</th>\n",
+              "      <td>4</td>\n",
+              "      <td>4</td>\n",
+              "      <td>2059.686940</td>\n",
+              "      <td>31.963428</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>19</th>\n",
+              "      <td>4</td>\n",
+              "      <td>5</td>\n",
+              "      <td>1482.366622</td>\n",
+              "      <td>30.009709</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>20</th>\n",
+              "      <td>5</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1393.195100</td>\n",
+              "      <td>27.219915</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>21</th>\n",
+              "      <td>5</td>\n",
+              "      <td>2</td>\n",
+              "      <td>586.200607</td>\n",
+              "      <td>26.039085</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>22</th>\n",
+              "      <td>5</td>\n",
+              "      <td>3</td>\n",
+              "      <td>466.880561</td>\n",
+              "      <td>25.169809</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>23</th>\n",
+              "      <td>5</td>\n",
+              "      <td>4</td>\n",
+              "      <td>521.809700</td>\n",
+              "      <td>26.893507</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>24</th>\n",
+              "      <td>5</td>\n",
+              "      <td>5</td>\n",
+              "      <td>1032.167736</td>\n",
+              "      <td>27.845462</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "    Dieta  Repetição  Ganho de peso (g)  Temperatura (°C)\n",
+              "0       1          1         573.894122         25.432418\n",
+              "1       1          2         425.849963         25.676273\n",
+              "2       1          3         664.400209         26.079955\n",
+              "3       1          4        1840.961499         27.776376\n",
+              "4       1          5        1210.270773         28.243019\n",
+              "5       2          1        1397.175764         28.876681\n",
+              "6       2          2         831.709630         28.277457\n",
+              "7       2          3        1069.383821         28.749353\n",
+              "8       2          4         264.485060         24.947620\n",
+              "9       2          5        1007.076086         28.313167\n",
+              "10      3          1        2117.994620         31.404407\n",
+              "11      3          2         639.877395         28.898926\n",
+              "12      3          3        1295.192738         28.652111\n",
+              "13      3          4         960.082651         27.984561\n",
+              "14      3          5         750.021146         27.315089\n",
+              "15      4          1        1605.648771         29.480823\n",
+              "16      4          2        1776.456860         29.283492\n",
+              "17      4          3        2143.892943         31.102997\n",
+              "18      4          4        2059.686940         31.963428\n",
+              "19      4          5        1482.366622         30.009709\n",
+              "20      5          1        1393.195100         27.219915\n",
+              "21      5          2         586.200607         26.039085\n",
+              "22      5          3         466.880561         25.169809\n",
+              "23      5          4         521.809700         26.893507\n",
+              "24      5          5        1032.167736         27.845462"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 6
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 297
+        },
+        "id": "wCKgPDpnNOAi",
+        "outputId": "7c29ba26-9b5a-4d14-cce9-770eaf702a48"
+      },
+      "source": [
+        "dados.describe()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>Dieta</th>\n",
+              "      <th>Repetição</th>\n",
+              "      <th>Ganho de peso (g)</th>\n",
+              "      <th>Temperatura (°C)</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>count</th>\n",
+              "      <td>25.000000</td>\n",
+              "      <td>25.000000</td>\n",
+              "      <td>25.000000</td>\n",
+              "      <td>25.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>mean</th>\n",
+              "      <td>3.000000</td>\n",
+              "      <td>3.000000</td>\n",
+              "      <td>1124.667253</td>\n",
+              "      <td>28.065426</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>std</th>\n",
+              "      <td>1.443376</td>\n",
+              "      <td>1.443376</td>\n",
+              "      <td>567.267289</td>\n",
+              "      <td>1.900921</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>min</th>\n",
+              "      <td>1.000000</td>\n",
+              "      <td>1.000000</td>\n",
+              "      <td>264.485060</td>\n",
+              "      <td>24.947620</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>25%</th>\n",
+              "      <td>2.000000</td>\n",
+              "      <td>2.000000</td>\n",
+              "      <td>639.877395</td>\n",
+              "      <td>26.893507</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>50%</th>\n",
+              "      <td>3.000000</td>\n",
+              "      <td>3.000000</td>\n",
+              "      <td>1032.167736</td>\n",
+              "      <td>28.243019</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>75%</th>\n",
+              "      <td>4.000000</td>\n",
+              "      <td>4.000000</td>\n",
+              "      <td>1482.366622</td>\n",
+              "      <td>28.898926</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>max</th>\n",
+              "      <td>5.000000</td>\n",
+              "      <td>5.000000</td>\n",
+              "      <td>2143.892943</td>\n",
+              "      <td>31.963428</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "           Dieta  Repetição  Ganho de peso (g)  Temperatura (°C)\n",
+              "count  25.000000  25.000000          25.000000         25.000000\n",
+              "mean    3.000000   3.000000        1124.667253         28.065426\n",
+              "std     1.443376   1.443376         567.267289          1.900921\n",
+              "min     1.000000   1.000000         264.485060         24.947620\n",
+              "25%     2.000000   2.000000         639.877395         26.893507\n",
+              "50%     3.000000   3.000000        1032.167736         28.243019\n",
+              "75%     4.000000   4.000000        1482.366622         28.898926\n",
+              "max     5.000000   5.000000        2143.892943         31.963428"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 7
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 391
+        },
+        "id": "_5eSkvUlO_RL",
+        "outputId": "7ed5ee48-0d26-4170-96c2-14379965e850"
+      },
+      "source": [
+        "dados.boxplot(figsize=(8,6))"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "<matplotlib.axes._subplots.AxesSubplot at 0x7fcdaaca3190>"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 8
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "image/png": "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\n",
+            "text/plain": [
+              "<Figure size 576x432 with 1 Axes>"
+            ]
+          },
+          "metadata": {
+            "tags": [],
+            "needs_background": "light"
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "GuC5XIesPUts"
+      },
+      "source": [
+        ""
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "BvQaisaKQFZd"
+      },
+      "source": [
+        "#Analisando por Dieta"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 204
+        },
+        "id": "Y7SEh6oKQHIc",
+        "outputId": "fe0db73b-3efc-487d-8b99-d8024e9a0908"
+      },
+      "source": [
+        "dados_medios = dados.groupby(by='Dieta' , as_index=False).mean()\n",
+        "dados_medios"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>Dieta</th>\n",
+              "      <th>Repetição</th>\n",
+              "      <th>Ganho de peso (g)</th>\n",
+              "      <th>Temperatura (°C)</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>1</td>\n",
+              "      <td>3</td>\n",
+              "      <td>943.075313</td>\n",
+              "      <td>26.641608</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>2</td>\n",
+              "      <td>3</td>\n",
+              "      <td>913.966072</td>\n",
+              "      <td>27.832856</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>3</td>\n",
+              "      <td>3</td>\n",
+              "      <td>1152.633710</td>\n",
+              "      <td>28.851019</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>4</td>\n",
+              "      <td>3</td>\n",
+              "      <td>1813.610427</td>\n",
+              "      <td>30.368090</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>5</td>\n",
+              "      <td>3</td>\n",
+              "      <td>800.050741</td>\n",
+              "      <td>26.633556</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "   Dieta  Repetição  Ganho de peso (g)  Temperatura (°C)\n",
+              "0      1          3         943.075313         26.641608\n",
+              "1      2          3         913.966072         27.832856\n",
+              "2      3          3        1152.633710         28.851019\n",
+              "3      4          3        1813.610427         30.368090\n",
+              "4      5          3         800.050741         26.633556"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 9
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 441
+        },
+        "id": "yxQGbaWoQV77",
+        "outputId": "a2905e3d-1eb5-4f4a-942b-3e7582a4bed3"
+      },
+      "source": [
+        "fig, eixo = plt.subplots(figsize=(8,6))\n",
+        "dados.boxplot (column='Ganho de peso (g)', by='Dieta', ax=eixo,  grid=False)\n",
+        "fig.suptitle(None)\n",
+        "eixo.set_title(None)\n",
+        "\n",
+        "eixo.set_ylabel('Ganho de peso(g)')\n",
+        "\n",
+        "plt.tight_layout()\n",
+        "plt.show()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "image/png": "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\n",
+            "text/plain": [
+              "<Figure size 576x432 with 1 Axes>"
+            ]
+          },
+          "metadata": {
+            "tags": [],
+            "needs_background": "light"
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 542
+        },
+        "id": "66fyqb4jR3YJ",
+        "outputId": "c36b8b9a-16a1-43ef-8f80-fffbc77d4a73"
+      },
+      "source": [
+        "import plotly.express as  px\n",
+        "\n",
+        "fig = px.box(dados,  x='Dieta', y='Ganho de peso (g)')\n",
+        "fig.show()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/html": [
+              "<html>\n",
+              "<head><meta charset=\"utf-8\" /></head>\n",
+              "<body>\n",
+              "    <div>\n",
+              "            <script src=\"https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG\"></script><script type=\"text/javascript\">if (window.MathJax) {MathJax.Hub.Config({SVG: {font: \"STIX-Web\"}});}</script>\n",
+              "                <script type=\"text/javascript\">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>\n",
+              "        <script src=\"https://cdn.plot.ly/plotly-latest.min.js\"></script>    \n",
+              "            <div id=\"ecbbe0ac-e6bc-420f-adce-a0c08135a7e6\" class=\"plotly-graph-div\" style=\"height:525px; width:100%;\"></div>\n",
+              "            <script type=\"text/javascript\">\n",
+              "                \n",
+              "                    window.PLOTLYENV=window.PLOTLYENV || {};\n",
+              "                    \n",
+              "                if (document.getElementById(\"ecbbe0ac-e6bc-420f-adce-a0c08135a7e6\")) {\n",
+              "                    Plotly.newPlot(\n",
+              "                        'ecbbe0ac-e6bc-420f-adce-a0c08135a7e6',\n",
+              "                        [{\"alignmentgroup\": \"True\", \"hoverlabel\": {\"namelength\": 0}, \"hovertemplate\": \"Dieta=%{x}<br>Ganho de peso (g)=%{y}\", \"legendgroup\": \"\", \"marker\": {\"color\": \"#636efa\"}, \"name\": \"\", \"notched\": false, \"offsetgroup\": \"\", \"orientation\": \"v\", \"showlegend\": false, \"type\": \"box\", \"x\": [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5], \"x0\": \" \", \"xaxis\": \"x\", \"y\": [573.8941222866509, 425.849962633034, 664.4002085478979, 1840.9614989398801, 1210.27077296296, 1397.17576393261, 831.7096295122569, 1069.38382090972, 264.48506023012396, 1007.0760863959199, 2117.99461950455, 639.877395331803, 1295.19273846652, 960.0826514885221, 750.021146470691, 1605.64877061902, 1776.45686012993, 2143.89294314845, 2059.68694025636, 1482.36662166769, 1393.1951003816, 586.200607147161, 466.880561405272, 521.809699559495, 1032.1677359064], \"y0\": \" \", \"yaxis\": \"y\"}],\n",
+              "                        {\"boxmode\": \"group\", \"legend\": {\"tracegroupgap\": 0}, \"margin\": {\"t\": 60}, \"template\": {\"data\": {\"bar\": [{\"error_x\": {\"color\": \"#2a3f5f\"}, \"error_y\": {\"color\": \"#2a3f5f\"}, \"marker\": {\"line\": {\"color\": \"#E5ECF6\", \"width\": 0.5}}, \"type\": \"bar\"}], \"barpolar\": [{\"marker\": {\"line\": {\"color\": \"#E5ECF6\", \"width\": 0.5}}, \"type\": \"barpolar\"}], \"carpet\": [{\"aaxis\": {\"endlinecolor\": \"#2a3f5f\", \"gridcolor\": \"white\", \"linecolor\": \"white\", \"minorgridcolor\": \"white\", \"startlinecolor\": \"#2a3f5f\"}, \"baxis\": {\"endlinecolor\": \"#2a3f5f\", \"gridcolor\": \"white\", \"linecolor\": \"white\", \"minorgridcolor\": \"white\", \"startlinecolor\": \"#2a3f5f\"}, \"type\": \"carpet\"}], \"choropleth\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"type\": \"choropleth\"}], \"contour\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"contour\"}], \"contourcarpet\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"type\": \"contourcarpet\"}], \"heatmap\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"heatmap\"}], \"heatmapgl\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"heatmapgl\"}], \"histogram\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"histogram\"}], \"histogram2d\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"histogram2d\"}], \"histogram2dcontour\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"histogram2dcontour\"}], \"mesh3d\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"type\": \"mesh3d\"}], \"parcoords\": [{\"line\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"parcoords\"}], \"pie\": [{\"automargin\": true, \"type\": \"pie\"}], \"scatter\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatter\"}], \"scatter3d\": [{\"line\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatter3d\"}], \"scattercarpet\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattercarpet\"}], \"scattergeo\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattergeo\"}], \"scattergl\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattergl\"}], \"scattermapbox\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattermapbox\"}], \"scatterpolar\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatterpolar\"}], \"scatterpolargl\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatterpolargl\"}], \"scatterternary\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatterternary\"}], \"surface\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"surface\"}], \"table\": [{\"cells\": {\"fill\": {\"color\": \"#EBF0F8\"}, \"line\": {\"color\": \"white\"}}, \"header\": {\"fill\": {\"color\": \"#C8D4E3\"}, \"line\": {\"color\": \"white\"}}, \"type\": \"table\"}]}, \"layout\": {\"annotationdefaults\": {\"arrowcolor\": \"#2a3f5f\", \"arrowhead\": 0, \"arrowwidth\": 1}, \"coloraxis\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"colorscale\": {\"diverging\": [[0, \"#8e0152\"], [0.1, \"#c51b7d\"], [0.2, \"#de77ae\"], [0.3, \"#f1b6da\"], [0.4, \"#fde0ef\"], [0.5, \"#f7f7f7\"], [0.6, \"#e6f5d0\"], [0.7, \"#b8e186\"], [0.8, \"#7fbc41\"], [0.9, \"#4d9221\"], [1, \"#276419\"]], \"sequential\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"sequentialminus\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]]}, \"colorway\": [\"#636efa\", \"#EF553B\", \"#00cc96\", \"#ab63fa\", \"#FFA15A\", \"#19d3f3\", \"#FF6692\", \"#B6E880\", \"#FF97FF\", \"#FECB52\"], \"font\": {\"color\": \"#2a3f5f\"}, \"geo\": {\"bgcolor\": \"white\", \"lakecolor\": \"white\", \"landcolor\": \"#E5ECF6\", \"showlakes\": true, \"showland\": true, \"subunitcolor\": \"white\"}, \"hoverlabel\": {\"align\": \"left\"}, \"hovermode\": \"closest\", \"mapbox\": {\"style\": \"light\"}, \"paper_bgcolor\": \"white\", \"plot_bgcolor\": \"#E5ECF6\", \"polar\": {\"angularaxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}, \"bgcolor\": \"#E5ECF6\", \"radialaxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}}, \"scene\": {\"xaxis\": {\"backgroundcolor\": \"#E5ECF6\", \"gridcolor\": \"white\", \"gridwidth\": 2, \"linecolor\": \"white\", \"showbackground\": true, \"ticks\": \"\", \"zerolinecolor\": \"white\"}, \"yaxis\": {\"backgroundcolor\": \"#E5ECF6\", \"gridcolor\": \"white\", \"gridwidth\": 2, \"linecolor\": \"white\", \"showbackground\": true, \"ticks\": \"\", \"zerolinecolor\": \"white\"}, \"zaxis\": {\"backgroundcolor\": \"#E5ECF6\", \"gridcolor\": \"white\", \"gridwidth\": 2, \"linecolor\": \"white\", \"showbackground\": true, \"ticks\": \"\", \"zerolinecolor\": \"white\"}}, \"shapedefaults\": {\"line\": {\"color\": \"#2a3f5f\"}}, \"ternary\": {\"aaxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}, \"baxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}, \"bgcolor\": \"#E5ECF6\", \"caxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}}, \"title\": {\"x\": 0.05}, \"xaxis\": {\"automargin\": true, \"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\", \"title\": {\"standoff\": 15}, \"zerolinecolor\": \"white\", \"zerolinewidth\": 2}, \"yaxis\": {\"automargin\": true, \"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\", \"title\": {\"standoff\": 15}, \"zerolinecolor\": \"white\", \"zerolinewidth\": 2}}}, \"xaxis\": {\"anchor\": \"y\", \"domain\": [0.0, 1.0], \"title\": {\"text\": \"Dieta\"}}, \"yaxis\": {\"anchor\": \"x\", \"domain\": [0.0, 1.0], \"title\": {\"text\": \"Ganho de peso (g)\"}}},\n",
+              "                        {\"responsive\": true}\n",
+              "                    ).then(function(){\n",
+              "                            \n",
+              "var gd = document.getElementById('ecbbe0ac-e6bc-420f-adce-a0c08135a7e6');\n",
+              "var x = new MutationObserver(function (mutations, observer) {{\n",
+              "        var display = window.getComputedStyle(gd).display;\n",
+              "        if (!display || display === 'none') {{\n",
+              "            console.log([gd, 'removed!']);\n",
+              "            Plotly.purge(gd);\n",
+              "            observer.disconnect();\n",
+              "        }}\n",
+              "}});\n",
+              "\n",
+              "// Listen for the removal of the full notebook cells\n",
+              "var notebookContainer = gd.closest('#notebook-container');\n",
+              "if (notebookContainer) {{\n",
+              "    x.observe(notebookContainer, {childList: true});\n",
+              "}}\n",
+              "\n",
+              "// Listen for the clearing of the current output cell\n",
+              "var outputEl = gd.closest('.output');\n",
+              "if (outputEl) {{\n",
+              "    x.observe(outputEl, {childList: true});\n",
+              "}}\n",
+              "\n",
+              "                        })\n",
+              "                };\n",
+              "                \n",
+              "            </script>\n",
+              "        </div>\n",
+              "</body>\n",
+              "</html>"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 542
+        },
+        "id": "7UO8qpy0UpMk",
+        "outputId": "040ad71b-2ff2-4919-87a3-eb5c2b3d31d6"
+      },
+      "source": [
+        "fig.write_html('Gráfico boxplot interativo.html')\n",
+        "fig.show()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/html": [
+              "<html>\n",
+              "<head><meta charset=\"utf-8\" /></head>\n",
+              "<body>\n",
+              "    <div>\n",
+              "            <script src=\"https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG\"></script><script type=\"text/javascript\">if (window.MathJax) {MathJax.Hub.Config({SVG: {font: \"STIX-Web\"}});}</script>\n",
+              "                <script type=\"text/javascript\">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>\n",
+              "        <script src=\"https://cdn.plot.ly/plotly-latest.min.js\"></script>    \n",
+              "            <div id=\"fc131fa3-2d70-4366-bea0-87ec184b8a5e\" class=\"plotly-graph-div\" style=\"height:525px; width:100%;\"></div>\n",
+              "            <script type=\"text/javascript\">\n",
+              "                \n",
+              "                    window.PLOTLYENV=window.PLOTLYENV || {};\n",
+              "                    \n",
+              "                if (document.getElementById(\"fc131fa3-2d70-4366-bea0-87ec184b8a5e\")) {\n",
+              "                    Plotly.newPlot(\n",
+              "                        'fc131fa3-2d70-4366-bea0-87ec184b8a5e',\n",
+              "                        [{\"alignmentgroup\": \"True\", \"hoverlabel\": {\"namelength\": 0}, \"hovertemplate\": \"Dieta=%{x}<br>Ganho de peso (g)=%{y}\", \"legendgroup\": \"\", \"marker\": {\"color\": \"#636efa\"}, \"name\": \"\", \"notched\": false, \"offsetgroup\": \"\", \"orientation\": \"v\", \"showlegend\": false, \"type\": \"box\", \"x\": [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5], \"x0\": \" \", \"xaxis\": \"x\", \"y\": [573.8941222866509, 425.849962633034, 664.4002085478979, 1840.9614989398801, 1210.27077296296, 1397.17576393261, 831.7096295122569, 1069.38382090972, 264.48506023012396, 1007.0760863959199, 2117.99461950455, 639.877395331803, 1295.19273846652, 960.0826514885221, 750.021146470691, 1605.64877061902, 1776.45686012993, 2143.89294314845, 2059.68694025636, 1482.36662166769, 1393.1951003816, 586.200607147161, 466.880561405272, 521.809699559495, 1032.1677359064], \"y0\": \" \", \"yaxis\": \"y\"}],\n",
+              "                        {\"boxmode\": \"group\", \"legend\": {\"tracegroupgap\": 0}, \"margin\": {\"t\": 60}, \"template\": {\"data\": {\"bar\": [{\"error_x\": {\"color\": \"#2a3f5f\"}, \"error_y\": {\"color\": \"#2a3f5f\"}, \"marker\": {\"line\": {\"color\": \"#E5ECF6\", \"width\": 0.5}}, \"type\": \"bar\"}], \"barpolar\": [{\"marker\": {\"line\": {\"color\": \"#E5ECF6\", \"width\": 0.5}}, \"type\": \"barpolar\"}], \"carpet\": [{\"aaxis\": {\"endlinecolor\": \"#2a3f5f\", \"gridcolor\": \"white\", \"linecolor\": \"white\", \"minorgridcolor\": \"white\", \"startlinecolor\": \"#2a3f5f\"}, \"baxis\": {\"endlinecolor\": \"#2a3f5f\", \"gridcolor\": \"white\", \"linecolor\": \"white\", \"minorgridcolor\": \"white\", \"startlinecolor\": \"#2a3f5f\"}, \"type\": \"carpet\"}], \"choropleth\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"type\": \"choropleth\"}], \"contour\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"contour\"}], \"contourcarpet\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"type\": \"contourcarpet\"}], \"heatmap\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"heatmap\"}], \"heatmapgl\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"heatmapgl\"}], \"histogram\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"histogram\"}], \"histogram2d\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"histogram2d\"}], \"histogram2dcontour\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"histogram2dcontour\"}], \"mesh3d\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"type\": \"mesh3d\"}], \"parcoords\": [{\"line\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"parcoords\"}], \"pie\": [{\"automargin\": true, \"type\": \"pie\"}], \"scatter\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatter\"}], \"scatter3d\": [{\"line\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatter3d\"}], \"scattercarpet\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattercarpet\"}], \"scattergeo\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattergeo\"}], \"scattergl\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattergl\"}], \"scattermapbox\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattermapbox\"}], \"scatterpolar\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatterpolar\"}], \"scatterpolargl\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatterpolargl\"}], \"scatterternary\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatterternary\"}], \"surface\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"surface\"}], \"table\": [{\"cells\": {\"fill\": {\"color\": \"#EBF0F8\"}, \"line\": {\"color\": \"white\"}}, \"header\": {\"fill\": {\"color\": \"#C8D4E3\"}, \"line\": {\"color\": \"white\"}}, \"type\": \"table\"}]}, \"layout\": {\"annotationdefaults\": {\"arrowcolor\": \"#2a3f5f\", \"arrowhead\": 0, \"arrowwidth\": 1}, \"coloraxis\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"colorscale\": {\"diverging\": [[0, \"#8e0152\"], [0.1, \"#c51b7d\"], [0.2, \"#de77ae\"], [0.3, \"#f1b6da\"], [0.4, \"#fde0ef\"], [0.5, \"#f7f7f7\"], [0.6, \"#e6f5d0\"], [0.7, \"#b8e186\"], [0.8, \"#7fbc41\"], [0.9, \"#4d9221\"], [1, \"#276419\"]], \"sequential\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"sequentialminus\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]]}, \"colorway\": [\"#636efa\", \"#EF553B\", \"#00cc96\", \"#ab63fa\", \"#FFA15A\", \"#19d3f3\", \"#FF6692\", \"#B6E880\", \"#FF97FF\", \"#FECB52\"], \"font\": {\"color\": \"#2a3f5f\"}, \"geo\": {\"bgcolor\": \"white\", \"lakecolor\": \"white\", \"landcolor\": \"#E5ECF6\", \"showlakes\": true, \"showland\": true, \"subunitcolor\": \"white\"}, \"hoverlabel\": {\"align\": \"left\"}, \"hovermode\": \"closest\", \"mapbox\": {\"style\": \"light\"}, \"paper_bgcolor\": \"white\", \"plot_bgcolor\": \"#E5ECF6\", \"polar\": {\"angularaxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}, \"bgcolor\": \"#E5ECF6\", \"radialaxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}}, \"scene\": {\"xaxis\": {\"backgroundcolor\": \"#E5ECF6\", \"gridcolor\": \"white\", \"gridwidth\": 2, \"linecolor\": \"white\", \"showbackground\": true, \"ticks\": \"\", \"zerolinecolor\": \"white\"}, \"yaxis\": {\"backgroundcolor\": \"#E5ECF6\", \"gridcolor\": \"white\", \"gridwidth\": 2, \"linecolor\": \"white\", \"showbackground\": true, \"ticks\": \"\", \"zerolinecolor\": \"white\"}, \"zaxis\": {\"backgroundcolor\": \"#E5ECF6\", \"gridcolor\": \"white\", \"gridwidth\": 2, \"linecolor\": \"white\", \"showbackground\": true, \"ticks\": \"\", \"zerolinecolor\": \"white\"}}, \"shapedefaults\": {\"line\": {\"color\": \"#2a3f5f\"}}, \"ternary\": {\"aaxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}, \"baxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}, \"bgcolor\": \"#E5ECF6\", \"caxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}}, \"title\": {\"x\": 0.05}, \"xaxis\": {\"automargin\": true, \"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\", \"title\": {\"standoff\": 15}, \"zerolinecolor\": \"white\", \"zerolinewidth\": 2}, \"yaxis\": {\"automargin\": true, \"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\", \"title\": {\"standoff\": 15}, \"zerolinecolor\": \"white\", \"zerolinewidth\": 2}}}, \"xaxis\": {\"anchor\": \"y\", \"domain\": [0.0, 1.0], \"title\": {\"text\": \"Dieta\"}}, \"yaxis\": {\"anchor\": \"x\", \"domain\": [0.0, 1.0], \"title\": {\"text\": \"Ganho de peso (g)\"}}},\n",
+              "                        {\"responsive\": true}\n",
+              "                    ).then(function(){\n",
+              "                            \n",
+              "var gd = document.getElementById('fc131fa3-2d70-4366-bea0-87ec184b8a5e');\n",
+              "var x = new MutationObserver(function (mutations, observer) {{\n",
+              "        var display = window.getComputedStyle(gd).display;\n",
+              "        if (!display || display === 'none') {{\n",
+              "            console.log([gd, 'removed!']);\n",
+              "            Plotly.purge(gd);\n",
+              "            observer.disconnect();\n",
+              "        }}\n",
+              "}});\n",
+              "\n",
+              "// Listen for the removal of the full notebook cells\n",
+              "var notebookContainer = gd.closest('#notebook-container');\n",
+              "if (notebookContainer) {{\n",
+              "    x.observe(notebookContainer, {childList: true});\n",
+              "}}\n",
+              "\n",
+              "// Listen for the clearing of the current output cell\n",
+              "var outputEl = gd.closest('.output');\n",
+              "if (outputEl) {{\n",
+              "    x.observe(outputEl, {childList: true});\n",
+              "}}\n",
+              "\n",
+              "                        })\n",
+              "                };\n",
+              "                \n",
+              "            </script>\n",
+              "        </div>\n",
+              "</body>\n",
+              "</html>"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "RWYGjQifWwVH"
+      },
+      "source": [
+        "# Identificando diferenças entre os grupos com ANOVA"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "giTYMpP5YuFh",
+        "outputId": "979d39a2-2111-4b0b-989e-cdf061a158ad"
+      },
+      "source": [
+        "!pip install pingouin"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Collecting pingouin\n",
+            "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/5c/40/7736d4fcb8dbb6758a1e9ca51754e60ff4efe5d7c9b5bb6166cff538513d/pingouin-0.3.11.tar.gz (204kB)\n",
+            "\r\u001b[K     |█▋                              | 10kB 16.4MB/s eta 0:00:01\r\u001b[K     |███▏                            | 20kB 23.9MB/s eta 0:00:01\r\u001b[K     |████▉                           | 30kB 16.7MB/s eta 0:00:01\r\u001b[K     |██████▍                         | 40kB 18.5MB/s eta 0:00:01\r\u001b[K     |████████                        | 51kB 12.5MB/s eta 0:00:01\r\u001b[K     |█████████▋                      | 61kB 14.0MB/s eta 0:00:01\r\u001b[K     |███████████▏                    | 71kB 12.6MB/s eta 0:00:01\r\u001b[K     |████████████▉                   | 81kB 12.1MB/s eta 0:00:01\r\u001b[K     |██████████████▍                 | 92kB 11.6MB/s eta 0:00:01\r\u001b[K     |████████████████                | 102kB 11.4MB/s eta 0:00:01\r\u001b[K     |█████████████████▋              | 112kB 11.4MB/s eta 0:00:01\r\u001b[K     |███████████████████▎            | 122kB 11.4MB/s eta 0:00:01\r\u001b[K     |████████████████████▉           | 133kB 11.4MB/s eta 0:00:01\r\u001b[K     |██████████████████████▍         | 143kB 11.4MB/s eta 0:00:01\r\u001b[K     |████████████████████████        | 153kB 11.4MB/s eta 0:00:01\r\u001b[K     |█████████████████████████▋      | 163kB 11.4MB/s eta 0:00:01\r\u001b[K     |███████████████████████████▎    | 174kB 11.4MB/s eta 0:00:01\r\u001b[K     |████████████████████████████▉   | 184kB 11.4MB/s eta 0:00:01\r\u001b[K     |██████████████████████████████▌ | 194kB 11.4MB/s eta 0:00:01\r\u001b[K     |████████████████████████████████| 204kB 11.4MB/s \n",
+            "\u001b[?25hRequirement already satisfied: numpy>=1.15 in /usr/local/lib/python3.7/dist-packages (from pingouin) (1.19.5)\n",
+            "Requirement already satisfied: scipy>=1.3 in /usr/local/lib/python3.7/dist-packages (from pingouin) (1.4.1)\n",
+            "Requirement already satisfied: pandas>=0.24 in /usr/local/lib/python3.7/dist-packages (from pingouin) (1.1.5)\n",
+            "Requirement already satisfied: matplotlib>=3.0.2 in /usr/local/lib/python3.7/dist-packages (from pingouin) (3.2.2)\n",
+            "Requirement already satisfied: seaborn>=0.9.0 in /usr/local/lib/python3.7/dist-packages (from pingouin) (0.11.1)\n",
+            "Requirement already satisfied: statsmodels>=0.10.0 in /usr/local/lib/python3.7/dist-packages (from pingouin) (0.10.2)\n",
+            "Requirement already satisfied: scikit-learn in /usr/local/lib/python3.7/dist-packages (from pingouin) (0.22.2.post1)\n",
+            "Collecting pandas_flavor>=0.1.2\n",
+            "  Downloading https://files.pythonhosted.org/packages/9a/57/7fbcff4c0961ed190ac5fcb0bd8194152ee1ee6487edf64fdbae16e2bc4b/pandas_flavor-0.2.0-py2.py3-none-any.whl\n",
+            "Collecting outdated\n",
+            "  Downloading https://files.pythonhosted.org/packages/fd/f6/95588d496e518355c33b389222c99069b1c6f2c046be64f400072fdc7cda/outdated-0.2.1-py3-none-any.whl\n",
+            "Requirement already satisfied: tabulate in /usr/local/lib/python3.7/dist-packages (from pingouin) (0.8.9)\n",
+            "Requirement already satisfied: python-dateutil>=2.7.3 in /usr/local/lib/python3.7/dist-packages (from pandas>=0.24->pingouin) (2.8.1)\n",
+            "Requirement already satisfied: pytz>=2017.2 in /usr/local/lib/python3.7/dist-packages (from pandas>=0.24->pingouin) (2018.9)\n",
+            "Requirement already satisfied: cycler>=0.10 in /usr/local/lib/python3.7/dist-packages (from matplotlib>=3.0.2->pingouin) (0.10.0)\n",
+            "Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,>=2.0.1 in /usr/local/lib/python3.7/dist-packages (from matplotlib>=3.0.2->pingouin) (2.4.7)\n",
+            "Requirement already satisfied: kiwisolver>=1.0.1 in /usr/local/lib/python3.7/dist-packages (from matplotlib>=3.0.2->pingouin) (1.3.1)\n",
+            "Requirement already satisfied: patsy>=0.4.0 in /usr/local/lib/python3.7/dist-packages (from statsmodels>=0.10.0->pingouin) (0.5.1)\n",
+            "Requirement already satisfied: joblib>=0.11 in /usr/local/lib/python3.7/dist-packages (from scikit-learn->pingouin) (1.0.1)\n",
+            "Requirement already satisfied: xarray in /usr/local/lib/python3.7/dist-packages (from pandas_flavor>=0.1.2->pingouin) (0.15.1)\n",
+            "Requirement already satisfied: requests in /usr/local/lib/python3.7/dist-packages (from outdated->pingouin) (2.23.0)\n",
+            "Collecting littleutils\n",
+            "  Downloading https://files.pythonhosted.org/packages/4e/b1/bb4e06f010947d67349f863b6a2ad71577f85590180a935f60543f622652/littleutils-0.2.2.tar.gz\n",
+            "Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.7/dist-packages (from python-dateutil>=2.7.3->pandas>=0.24->pingouin) (1.15.0)\n",
+            "Requirement already satisfied: setuptools>=41.2 in /usr/local/lib/python3.7/dist-packages (from xarray->pandas_flavor>=0.1.2->pingouin) (56.0.0)\n",
+            "Requirement already satisfied: idna<3,>=2.5 in /usr/local/lib/python3.7/dist-packages (from requests->outdated->pingouin) (2.10)\n",
+            "Requirement already satisfied: chardet<4,>=3.0.2 in /usr/local/lib/python3.7/dist-packages (from requests->outdated->pingouin) (3.0.4)\n",
+            "Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.7/dist-packages (from requests->outdated->pingouin) (2020.12.5)\n",
+            "Requirement already satisfied: urllib3!=1.25.0,!=1.25.1,<1.26,>=1.21.1 in /usr/local/lib/python3.7/dist-packages (from requests->outdated->pingouin) (1.24.3)\n",
+            "Building wheels for collected packages: pingouin, littleutils\n",
+            "  Building wheel for pingouin (setup.py) ... \u001b[?25l\u001b[?25hdone\n",
+            "  Created wheel for pingouin: filename=pingouin-0.3.11-cp37-none-any.whl size=203325 sha256=9ddb46a54fb87f067651f5254c814b5502aa6c32540bb4c1def76270a25bb88e\n",
+            "  Stored in directory: /root/.cache/pip/wheels/79/46/ef/e377eb45c86f278f660d31c4a30e3f733063d28c89462f1aea\n",
+            "  Building wheel for littleutils (setup.py) ... \u001b[?25l\u001b[?25hdone\n",
+            "  Created wheel for littleutils: filename=littleutils-0.2.2-cp37-none-any.whl size=7051 sha256=0b8c8ac657a58c78ec4c20e086e09d69bd760dcb31e099d1bb68bc8d2cca0850\n",
+            "  Stored in directory: /root/.cache/pip/wheels/53/16/9f/ac67d15c40243754fd73f620e1b9b6dedc20492ecc19a2bae1\n",
+            "Successfully built pingouin littleutils\n",
+            "Installing collected packages: pandas-flavor, littleutils, outdated, pingouin\n",
+            "Successfully installed littleutils-0.2.2 outdated-0.2.1 pandas-flavor-0.2.0 pingouin-0.3.11\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "rBnRF56BYj68"
+      },
+      "source": [
+        "import pingouin as  pg\n",
+        "import scipy.stats as  sp"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Zfxl1y4CW-wh"
+      },
+      "source": [
+        "##  Pressupostos"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "pOE1mT_TXFvk"
+      },
+      "source": [
+        "###Normalidade"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 80
+        },
+        "id": "77n8DpuJYgr0",
+        "outputId": "c30b5384-33ec-4833-da9d-cb9da55ad4f8"
+      },
+      "source": [
+        "pg.normality(dados['Ganho de peso (g)'])"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>W</th>\n",
+              "      <th>pval</th>\n",
+              "      <th>normal</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>Ganho de peso (g)</th>\n",
+              "      <td>0.943851</td>\n",
+              "      <td>0.181596</td>\n",
+              "      <td>True</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "                          W      pval  normal\n",
+              "Ganho de peso (g)  0.943851  0.181596    True"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 17
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "-c-d1_FnYiGc"
+      },
+      "source": [
+        "###Homogeneidade das variancias"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 80
+        },
+        "id": "EAx4Q75IYine",
+        "outputId": "bd416598-873e-46a4-c4c9-c82788553c79"
+      },
+      "source": [
+        "pg.homoscedasticity(dados, dv='Ganho de peso (g)', group='Dieta')"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>W</th>\n",
+              "      <th>pval</th>\n",
+              "      <th>equal_var</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>levene</th>\n",
+              "      <td>0.269462</td>\n",
+              "      <td>0.894142</td>\n",
+              "      <td>True</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "               W      pval  equal_var\n",
+              "levene  0.269462  0.894142       True"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 18
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "oKK50KOBafS-"
+      },
+      "source": [
+        "##ANOVA"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 111
+        },
+        "id": "7jNwRho7ag8b",
+        "outputId": "09a3e6e8-eda0-4c27-bd48-70fecc37d710"
+      },
+      "source": [
+        "pg.anova(dv='Ganho de peso (g)', between='Dieta', data=dados, detailed=True)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>Source</th>\n",
+              "      <th>SS</th>\n",
+              "      <th>DF</th>\n",
+              "      <th>MS</th>\n",
+              "      <th>F</th>\n",
+              "      <th>p-unc</th>\n",
+              "      <th>np2</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>Dieta</td>\n",
+              "      <td>3.290857e+06</td>\n",
+              "      <td>4</td>\n",
+              "      <td>822714.150172</td>\n",
+              "      <td>3.712479</td>\n",
+              "      <td>0.020387</td>\n",
+              "      <td>0.42611</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>Within</td>\n",
+              "      <td>4.432156e+06</td>\n",
+              "      <td>20</td>\n",
+              "      <td>221607.782011</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "   Source            SS  DF             MS         F     p-unc      np2\n",
+              "0   Dieta  3.290857e+06   4  822714.150172  3.712479  0.020387  0.42611\n",
+              "1  Within  4.432156e+06  20  221607.782011       NaN       NaN      NaN"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 19
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "twpVtmukbUy2"
+      },
+      "source": [
+        "###Teste a posteriori"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 427
+        },
+        "id": "tVJvrZIjbXVc",
+        "outputId": "d7e509e1-fc26-452a-f5a6-1a73b4371fa9"
+      },
+      "source": [
+        "pg.pairwise_tukey(dv='Ganho de peso (g)',  between='Dieta', data=dados)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "/usr/local/lib/python3.7/dist-packages/statsmodels/tools/_testing.py:19: FutureWarning:\n",
+            "\n",
+            "pandas.util.testing is deprecated. Use the functions in the public API at pandas.testing instead.\n",
+            "\n"
+          ],
+          "name": "stderr"
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>A</th>\n",
+              "      <th>B</th>\n",
+              "      <th>mean(A)</th>\n",
+              "      <th>mean(B)</th>\n",
+              "      <th>diff</th>\n",
+              "      <th>se</th>\n",
+              "      <th>T</th>\n",
+              "      <th>p-tukey</th>\n",
+              "      <th>hedges</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>1</td>\n",
+              "      <td>2</td>\n",
+              "      <td>943.075313</td>\n",
+              "      <td>913.966072</td>\n",
+              "      <td>29.109241</td>\n",
+              "      <td>297.729933</td>\n",
+              "      <td>0.097771</td>\n",
+              "      <td>0.900000</td>\n",
+              "      <td>0.055851</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>1</td>\n",
+              "      <td>3</td>\n",
+              "      <td>943.075313</td>\n",
+              "      <td>1152.633710</td>\n",
+              "      <td>-209.558397</td>\n",
+              "      <td>297.729933</td>\n",
+              "      <td>-0.703854</td>\n",
+              "      <td>0.900000</td>\n",
+              "      <td>-0.402077</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>1</td>\n",
+              "      <td>4</td>\n",
+              "      <td>943.075313</td>\n",
+              "      <td>1813.610427</td>\n",
+              "      <td>-870.535114</td>\n",
+              "      <td>297.729933</td>\n",
+              "      <td>-2.923909</td>\n",
+              "      <td>0.057528</td>\n",
+              "      <td>-1.670283</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>1</td>\n",
+              "      <td>5</td>\n",
+              "      <td>943.075313</td>\n",
+              "      <td>800.050741</td>\n",
+              "      <td>143.024572</td>\n",
+              "      <td>297.729933</td>\n",
+              "      <td>0.480384</td>\n",
+              "      <td>0.900000</td>\n",
+              "      <td>0.274419</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>2</td>\n",
+              "      <td>3</td>\n",
+              "      <td>913.966072</td>\n",
+              "      <td>1152.633710</td>\n",
+              "      <td>-238.667638</td>\n",
+              "      <td>297.729933</td>\n",
+              "      <td>-0.801625</td>\n",
+              "      <td>0.900000</td>\n",
+              "      <td>-0.457928</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>5</th>\n",
+              "      <td>2</td>\n",
+              "      <td>4</td>\n",
+              "      <td>913.966072</td>\n",
+              "      <td>1813.610427</td>\n",
+              "      <td>-899.644355</td>\n",
+              "      <td>297.729933</td>\n",
+              "      <td>-3.021679</td>\n",
+              "      <td>0.047110</td>\n",
+              "      <td>-1.726135</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>6</th>\n",
+              "      <td>2</td>\n",
+              "      <td>5</td>\n",
+              "      <td>913.966072</td>\n",
+              "      <td>800.050741</td>\n",
+              "      <td>113.915331</td>\n",
+              "      <td>297.729933</td>\n",
+              "      <td>0.382613</td>\n",
+              "      <td>0.900000</td>\n",
+              "      <td>0.218568</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>7</th>\n",
+              "      <td>3</td>\n",
+              "      <td>4</td>\n",
+              "      <td>1152.633710</td>\n",
+              "      <td>1813.610427</td>\n",
+              "      <td>-660.976717</td>\n",
+              "      <td>297.729933</td>\n",
+              "      <td>-2.220055</td>\n",
+              "      <td>0.212892</td>\n",
+              "      <td>-1.268207</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>8</th>\n",
+              "      <td>3</td>\n",
+              "      <td>5</td>\n",
+              "      <td>1152.633710</td>\n",
+              "      <td>800.050741</td>\n",
+              "      <td>352.582969</td>\n",
+              "      <td>297.729933</td>\n",
+              "      <td>1.184238</td>\n",
+              "      <td>0.736911</td>\n",
+              "      <td>0.676496</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>9</th>\n",
+              "      <td>4</td>\n",
+              "      <td>5</td>\n",
+              "      <td>1813.610427</td>\n",
+              "      <td>800.050741</td>\n",
+              "      <td>1013.559686</td>\n",
+              "      <td>297.729933</td>\n",
+              "      <td>3.404292</td>\n",
+              "      <td>0.021001</td>\n",
+              "      <td>1.944702</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "   A  B      mean(A)      mean(B)  ...          se         T   p-tukey    hedges\n",
+              "0  1  2   943.075313   913.966072  ...  297.729933  0.097771  0.900000  0.055851\n",
+              "1  1  3   943.075313  1152.633710  ...  297.729933 -0.703854  0.900000 -0.402077\n",
+              "2  1  4   943.075313  1813.610427  ...  297.729933 -2.923909  0.057528 -1.670283\n",
+              "3  1  5   943.075313   800.050741  ...  297.729933  0.480384  0.900000  0.274419\n",
+              "4  2  3   913.966072  1152.633710  ...  297.729933 -0.801625  0.900000 -0.457928\n",
+              "5  2  4   913.966072  1813.610427  ...  297.729933 -3.021679  0.047110 -1.726135\n",
+              "6  2  5   913.966072   800.050741  ...  297.729933  0.382613  0.900000  0.218568\n",
+              "7  3  4  1152.633710  1813.610427  ...  297.729933 -2.220055  0.212892 -1.268207\n",
+              "8  3  5  1152.633710   800.050741  ...  297.729933  1.184238  0.736911  0.676496\n",
+              "9  4  5  1813.610427   800.050741  ...  297.729933  3.404292  0.021001  1.944702\n",
+              "\n",
+              "[10 rows x 9 columns]"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 20
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "4oejRwkfc8SI"
+      },
+      "source": [
+        "###Correlação"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 824
+        },
+        "id": "axcnXVUAc-Qx",
+        "outputId": "a2a28fe6-5ea6-4fa6-e261-d5c5d37ebae6"
+      },
+      "source": [
+        "dados\n"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>Dieta</th>\n",
+              "      <th>Repetição</th>\n",
+              "      <th>Ganho de peso (g)</th>\n",
+              "      <th>Temperatura (°C)</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>573.894122</td>\n",
+              "      <td>25.432418</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>1</td>\n",
+              "      <td>2</td>\n",
+              "      <td>425.849963</td>\n",
+              "      <td>25.676273</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>1</td>\n",
+              "      <td>3</td>\n",
+              "      <td>664.400209</td>\n",
+              "      <td>26.079955</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>1</td>\n",
+              "      <td>4</td>\n",
+              "      <td>1840.961499</td>\n",
+              "      <td>27.776376</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>1</td>\n",
+              "      <td>5</td>\n",
+              "      <td>1210.270773</td>\n",
+              "      <td>28.243019</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>5</th>\n",
+              "      <td>2</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1397.175764</td>\n",
+              "      <td>28.876681</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>6</th>\n",
+              "      <td>2</td>\n",
+              "      <td>2</td>\n",
+              "      <td>831.709630</td>\n",
+              "      <td>28.277457</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>7</th>\n",
+              "      <td>2</td>\n",
+              "      <td>3</td>\n",
+              "      <td>1069.383821</td>\n",
+              "      <td>28.749353</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>8</th>\n",
+              "      <td>2</td>\n",
+              "      <td>4</td>\n",
+              "      <td>264.485060</td>\n",
+              "      <td>24.947620</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>9</th>\n",
+              "      <td>2</td>\n",
+              "      <td>5</td>\n",
+              "      <td>1007.076086</td>\n",
+              "      <td>28.313167</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>10</th>\n",
+              "      <td>3</td>\n",
+              "      <td>1</td>\n",
+              "      <td>2117.994620</td>\n",
+              "      <td>31.404407</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>11</th>\n",
+              "      <td>3</td>\n",
+              "      <td>2</td>\n",
+              "      <td>639.877395</td>\n",
+              "      <td>28.898926</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>12</th>\n",
+              "      <td>3</td>\n",
+              "      <td>3</td>\n",
+              "      <td>1295.192738</td>\n",
+              "      <td>28.652111</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>13</th>\n",
+              "      <td>3</td>\n",
+              "      <td>4</td>\n",
+              "      <td>960.082651</td>\n",
+              "      <td>27.984561</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>14</th>\n",
+              "      <td>3</td>\n",
+              "      <td>5</td>\n",
+              "      <td>750.021146</td>\n",
+              "      <td>27.315089</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>15</th>\n",
+              "      <td>4</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1605.648771</td>\n",
+              "      <td>29.480823</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>16</th>\n",
+              "      <td>4</td>\n",
+              "      <td>2</td>\n",
+              "      <td>1776.456860</td>\n",
+              "      <td>29.283492</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>17</th>\n",
+              "      <td>4</td>\n",
+              "      <td>3</td>\n",
+              "      <td>2143.892943</td>\n",
+              "      <td>31.102997</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>18</th>\n",
+              "      <td>4</td>\n",
+              "      <td>4</td>\n",
+              "      <td>2059.686940</td>\n",
+              "      <td>31.963428</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>19</th>\n",
+              "      <td>4</td>\n",
+              "      <td>5</td>\n",
+              "      <td>1482.366622</td>\n",
+              "      <td>30.009709</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>20</th>\n",
+              "      <td>5</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1393.195100</td>\n",
+              "      <td>27.219915</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>21</th>\n",
+              "      <td>5</td>\n",
+              "      <td>2</td>\n",
+              "      <td>586.200607</td>\n",
+              "      <td>26.039085</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>22</th>\n",
+              "      <td>5</td>\n",
+              "      <td>3</td>\n",
+              "      <td>466.880561</td>\n",
+              "      <td>25.169809</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>23</th>\n",
+              "      <td>5</td>\n",
+              "      <td>4</td>\n",
+              "      <td>521.809700</td>\n",
+              "      <td>26.893507</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>24</th>\n",
+              "      <td>5</td>\n",
+              "      <td>5</td>\n",
+              "      <td>1032.167736</td>\n",
+              "      <td>27.845462</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "    Dieta  Repetição  Ganho de peso (g)  Temperatura (°C)\n",
+              "0       1          1         573.894122         25.432418\n",
+              "1       1          2         425.849963         25.676273\n",
+              "2       1          3         664.400209         26.079955\n",
+              "3       1          4        1840.961499         27.776376\n",
+              "4       1          5        1210.270773         28.243019\n",
+              "5       2          1        1397.175764         28.876681\n",
+              "6       2          2         831.709630         28.277457\n",
+              "7       2          3        1069.383821         28.749353\n",
+              "8       2          4         264.485060         24.947620\n",
+              "9       2          5        1007.076086         28.313167\n",
+              "10      3          1        2117.994620         31.404407\n",
+              "11      3          2         639.877395         28.898926\n",
+              "12      3          3        1295.192738         28.652111\n",
+              "13      3          4         960.082651         27.984561\n",
+              "14      3          5         750.021146         27.315089\n",
+              "15      4          1        1605.648771         29.480823\n",
+              "16      4          2        1776.456860         29.283492\n",
+              "17      4          3        2143.892943         31.102997\n",
+              "18      4          4        2059.686940         31.963428\n",
+              "19      4          5        1482.366622         30.009709\n",
+              "20      5          1        1393.195100         27.219915\n",
+              "21      5          2         586.200607         26.039085\n",
+              "22      5          3         466.880561         25.169809\n",
+              "23      5          4         521.809700         26.893507\n",
+              "24      5          5        1032.167736         27.845462"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 21
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 296
+        },
+        "id": "Q12dtutudYer",
+        "outputId": "4e589e06-c27f-486d-9016-596186e932ac"
+      },
+      "source": [
+        "dados.plot.scatter(x='Temperatura (°C)', y='Ganho de peso (g)')"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "<matplotlib.axes._subplots.AxesSubplot at 0x7fcd8f5f8110>"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 22
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "image/png": "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\n",
+            "text/plain": [
+              "<Figure size 432x288 with 1 Axes>"
+            ]
+          },
+          "metadata": {
+            "tags": [],
+            "needs_background": "light"
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 173
+        },
+        "id": "f4VpKaC1dq-K",
+        "outputId": "edf2e575-923a-4de2-a25d-c6c4ac72e8b9"
+      },
+      "source": [
+        "dados.corr(method='pearson')"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>Dieta</th>\n",
+              "      <th>Repetição</th>\n",
+              "      <th>Ganho de peso (g)</th>\n",
+              "      <th>Temperatura (°C)</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>Dieta</th>\n",
+              "      <td>1.000000</td>\n",
+              "      <td>0.000000</td>\n",
+              "      <td>0.156125</td>\n",
+              "      <td>0.191278</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Repetição</th>\n",
+              "      <td>0.000000</td>\n",
+              "      <td>1.000000</td>\n",
+              "      <td>-0.092876</td>\n",
+              "      <td>0.000223</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Ganho de peso (g)</th>\n",
+              "      <td>0.156125</td>\n",
+              "      <td>-0.092876</td>\n",
+              "      <td>1.000000</td>\n",
+              "      <td>0.862801</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Temperatura (°C)</th>\n",
+              "      <td>0.191278</td>\n",
+              "      <td>0.000223</td>\n",
+              "      <td>0.862801</td>\n",
+              "      <td>1.000000</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "                      Dieta  Repetição  Ganho de peso (g)  Temperatura (°C)\n",
+              "Dieta              1.000000   0.000000           0.156125          0.191278\n",
+              "Repetição          0.000000   1.000000          -0.092876          0.000223\n",
+              "Ganho de peso (g)  0.156125  -0.092876           1.000000          0.862801\n",
+              "Temperatura (°C)   0.191278   0.000223           0.862801          1.000000"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 23
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 542
+        },
+        "id": "zZYgMK1DeQYT",
+        "outputId": "a190d14b-589a-431a-ed77-8e4069b00a08"
+      },
+      "source": [
+        "fig = px.scatter(dados, x='Temperatura (°C)', y='Ganho de peso (g)')\n",
+        "fig.show()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/html": [
+              "<html>\n",
+              "<head><meta charset=\"utf-8\" /></head>\n",
+              "<body>\n",
+              "    <div>\n",
+              "            <script src=\"https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG\"></script><script type=\"text/javascript\">if (window.MathJax) {MathJax.Hub.Config({SVG: {font: \"STIX-Web\"}});}</script>\n",
+              "                <script type=\"text/javascript\">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>\n",
+              "        <script src=\"https://cdn.plot.ly/plotly-latest.min.js\"></script>    \n",
+              "            <div id=\"6ca3362a-85bb-4166-a055-0c1878119c21\" class=\"plotly-graph-div\" style=\"height:525px; width:100%;\"></div>\n",
+              "            <script type=\"text/javascript\">\n",
+              "                \n",
+              "                    window.PLOTLYENV=window.PLOTLYENV || {};\n",
+              "                    \n",
+              "                if (document.getElementById(\"6ca3362a-85bb-4166-a055-0c1878119c21\")) {\n",
+              "                    Plotly.newPlot(\n",
+              "                        '6ca3362a-85bb-4166-a055-0c1878119c21',\n",
+              "                        [{\"hoverlabel\": {\"namelength\": 0}, \"hovertemplate\": \"Temperatura (\\u00b0C)=%{x}<br>Ganho de peso (g)=%{y}\", \"legendgroup\": \"\", \"marker\": {\"color\": \"#636efa\", \"symbol\": \"circle\"}, \"mode\": \"markers\", \"name\": \"\", \"showlegend\": false, \"type\": \"scatter\", \"x\": [25.4324177985231, 25.6762725765241, 26.0799553487822, 27.776376413543, 28.2430191059797, 28.876681316586527, 28.277457363567066, 28.74935270415123, 24.9476198805252, 28.31316661569903, 31.4044074096737, 28.898925502271823, 28.6521108116266, 27.9845612947757, 27.3150886424422, 29.4808228618842, 29.2834916125441, 31.1029974665041, 31.96342827564265, 30.009708883711003, 27.219915425972975, 26.0390847707349, 25.169809459322, 26.8935065683413, 27.84546248654158], \"xaxis\": \"x\", \"y\": [573.8941222866509, 425.849962633034, 664.4002085478979, 1840.9614989398801, 1210.27077296296, 1397.17576393261, 831.7096295122569, 1069.38382090972, 264.48506023012396, 1007.0760863959199, 2117.99461950455, 639.877395331803, 1295.19273846652, 960.0826514885221, 750.021146470691, 1605.64877061902, 1776.45686012993, 2143.89294314845, 2059.68694025636, 1482.36662166769, 1393.1951003816, 586.200607147161, 466.880561405272, 521.809699559495, 1032.1677359064], \"yaxis\": \"y\"}],\n",
+              "                        {\"legend\": {\"tracegroupgap\": 0}, \"margin\": {\"t\": 60}, \"template\": {\"data\": {\"bar\": [{\"error_x\": {\"color\": \"#2a3f5f\"}, \"error_y\": {\"color\": \"#2a3f5f\"}, \"marker\": {\"line\": {\"color\": \"#E5ECF6\", \"width\": 0.5}}, \"type\": \"bar\"}], \"barpolar\": [{\"marker\": {\"line\": {\"color\": \"#E5ECF6\", \"width\": 0.5}}, \"type\": \"barpolar\"}], \"carpet\": [{\"aaxis\": {\"endlinecolor\": \"#2a3f5f\", \"gridcolor\": \"white\", \"linecolor\": \"white\", \"minorgridcolor\": \"white\", \"startlinecolor\": \"#2a3f5f\"}, \"baxis\": {\"endlinecolor\": \"#2a3f5f\", \"gridcolor\": \"white\", \"linecolor\": \"white\", \"minorgridcolor\": \"white\", \"startlinecolor\": \"#2a3f5f\"}, \"type\": \"carpet\"}], \"choropleth\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"type\": \"choropleth\"}], \"contour\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"contour\"}], \"contourcarpet\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"type\": \"contourcarpet\"}], \"heatmap\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"heatmap\"}], \"heatmapgl\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"heatmapgl\"}], \"histogram\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"histogram\"}], \"histogram2d\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"histogram2d\"}], \"histogram2dcontour\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"histogram2dcontour\"}], \"mesh3d\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"type\": \"mesh3d\"}], \"parcoords\": [{\"line\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"parcoords\"}], \"pie\": [{\"automargin\": true, \"type\": \"pie\"}], \"scatter\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatter\"}], \"scatter3d\": [{\"line\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatter3d\"}], \"scattercarpet\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattercarpet\"}], \"scattergeo\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattergeo\"}], \"scattergl\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattergl\"}], \"scattermapbox\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattermapbox\"}], \"scatterpolar\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatterpolar\"}], \"scatterpolargl\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatterpolargl\"}], \"scatterternary\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatterternary\"}], \"surface\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"surface\"}], \"table\": [{\"cells\": {\"fill\": {\"color\": \"#EBF0F8\"}, \"line\": {\"color\": \"white\"}}, \"header\": {\"fill\": {\"color\": \"#C8D4E3\"}, \"line\": {\"color\": \"white\"}}, \"type\": \"table\"}]}, \"layout\": {\"annotationdefaults\": {\"arrowcolor\": \"#2a3f5f\", \"arrowhead\": 0, \"arrowwidth\": 1}, \"coloraxis\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"colorscale\": {\"diverging\": [[0, \"#8e0152\"], [0.1, \"#c51b7d\"], [0.2, \"#de77ae\"], [0.3, \"#f1b6da\"], [0.4, \"#fde0ef\"], [0.5, \"#f7f7f7\"], [0.6, \"#e6f5d0\"], [0.7, \"#b8e186\"], [0.8, \"#7fbc41\"], [0.9, \"#4d9221\"], [1, \"#276419\"]], \"sequential\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"sequentialminus\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]]}, \"colorway\": [\"#636efa\", \"#EF553B\", \"#00cc96\", \"#ab63fa\", \"#FFA15A\", \"#19d3f3\", \"#FF6692\", \"#B6E880\", \"#FF97FF\", \"#FECB52\"], \"font\": {\"color\": \"#2a3f5f\"}, \"geo\": {\"bgcolor\": \"white\", \"lakecolor\": \"white\", \"landcolor\": \"#E5ECF6\", \"showlakes\": true, \"showland\": true, \"subunitcolor\": \"white\"}, \"hoverlabel\": {\"align\": \"left\"}, \"hovermode\": \"closest\", \"mapbox\": {\"style\": \"light\"}, \"paper_bgcolor\": \"white\", \"plot_bgcolor\": \"#E5ECF6\", \"polar\": {\"angularaxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}, \"bgcolor\": \"#E5ECF6\", \"radialaxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}}, \"scene\": {\"xaxis\": {\"backgroundcolor\": \"#E5ECF6\", \"gridcolor\": \"white\", \"gridwidth\": 2, \"linecolor\": \"white\", \"showbackground\": true, \"ticks\": \"\", \"zerolinecolor\": \"white\"}, \"yaxis\": {\"backgroundcolor\": \"#E5ECF6\", \"gridcolor\": \"white\", \"gridwidth\": 2, \"linecolor\": \"white\", \"showbackground\": true, \"ticks\": \"\", \"zerolinecolor\": \"white\"}, \"zaxis\": {\"backgroundcolor\": \"#E5ECF6\", \"gridcolor\": \"white\", \"gridwidth\": 2, \"linecolor\": \"white\", \"showbackground\": true, \"ticks\": \"\", \"zerolinecolor\": \"white\"}}, \"shapedefaults\": {\"line\": {\"color\": \"#2a3f5f\"}}, \"ternary\": {\"aaxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}, \"baxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}, \"bgcolor\": \"#E5ECF6\", \"caxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}}, \"title\": {\"x\": 0.05}, \"xaxis\": {\"automargin\": true, \"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\", \"title\": {\"standoff\": 15}, \"zerolinecolor\": \"white\", \"zerolinewidth\": 2}, \"yaxis\": {\"automargin\": true, \"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\", \"title\": {\"standoff\": 15}, \"zerolinecolor\": \"white\", \"zerolinewidth\": 2}}}, \"xaxis\": {\"anchor\": \"y\", \"domain\": [0.0, 1.0], \"title\": {\"text\": \"Temperatura (\\u00b0C)\"}}, \"yaxis\": {\"anchor\": \"x\", \"domain\": [0.0, 1.0], \"title\": {\"text\": \"Ganho de peso (g)\"}}},\n",
+              "                        {\"responsive\": true}\n",
+              "                    ).then(function(){\n",
+              "                            \n",
+              "var gd = document.getElementById('6ca3362a-85bb-4166-a055-0c1878119c21');\n",
+              "var x = new MutationObserver(function (mutations, observer) {{\n",
+              "        var display = window.getComputedStyle(gd).display;\n",
+              "        if (!display || display === 'none') {{\n",
+              "            console.log([gd, 'removed!']);\n",
+              "            Plotly.purge(gd);\n",
+              "            observer.disconnect();\n",
+              "        }}\n",
+              "}});\n",
+              "\n",
+              "// Listen for the removal of the full notebook cells\n",
+              "var notebookContainer = gd.closest('#notebook-container');\n",
+              "if (notebookContainer) {{\n",
+              "    x.observe(notebookContainer, {childList: true});\n",
+              "}}\n",
+              "\n",
+              "// Listen for the clearing of the current output cell\n",
+              "var outputEl = gd.closest('.output');\n",
+              "if (outputEl) {{\n",
+              "    x.observe(outputEl, {childList: true});\n",
+              "}}\n",
+              "\n",
+              "                        })\n",
+              "                };\n",
+              "                \n",
+              "            </script>\n",
+              "        </div>\n",
+              "</body>\n",
+              "</html>"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "dXgN7O3WgNNQ"
+      },
+      "source": [
+        "#Análise de Regressão Linear"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "zrKNQLCZiRYe"
+      },
+      "source": [
+        "import scipy.stats as stats"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "rQcZuH3Vgemt"
+      },
+      "source": [
+        "# Y - variavel dependente\n",
+        "# X - variavel independente\n",
+        "\n",
+        "reg  = stats.linregress(dados['Temperatura (°C)'], dados['Ganho de peso (g)'])"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "sgnPYz1iiECe",
+        "outputId": "583af38a-e101-4282-ad26-231670a62d79"
+      },
+      "source": [
+        "reg.pvalue"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "2.8913186692266107e-08"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 26
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "n_7_QgQBiXis",
+        "outputId": "0c344741-45ee-4c9b-ead5-002ea542937a"
+      },
+      "source": [
+        "#o r vai de 0 a 1. perto de zero quer dizer que o efeito é baixo, quanto mais próximo de 1 o efeito é forte\n",
+        "reg.rvalue**2"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "0.744426231981499"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 27
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 441
+        },
+        "id": "qMeaMW1bilsW",
+        "outputId": "ad7fa6b8-6a01-4aa6-8106-e58c53d5e947"
+      },
+      "source": [
+        "fig, eixo =  plt.subplots(figsize=(8,6))\n",
+        "dados.plot.scatter(x='Temperatura (°C)',  y='Ganho de peso (g)', ax=eixo)\n",
+        "# Y = a  +  bX\n",
+        "#Ganho de  peso  =b* temperatura  +  a\n",
+        "x = dados['Temperatura (°C)'] \n",
+        "y = reg.slope*x + reg.intercept\n",
+        "eixo.plot(x, y,  color='red')\n",
+        "\n",
+        "\n",
+        "plt.tight_layout()\n",
+        "plt.show()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "image/png": "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\n",
+            "text/plain": [
+              "<Figure size 576x432 with 1 Axes>"
+            ]
+          },
+          "metadata": {
+            "tags": [],
+            "needs_background": "light"
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "l9L7NPvajfYH"
+      },
+      "source": [
+        "# PREDIÇÃO\n",
+        "def predict(temp):\n",
+        "  ganho_pred = reg.slope*temp + reg.intercept\n",
+        "\n",
+        "  return ganho_pred"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "wmCLGHfEmPb4",
+        "outputId": "163693ad-f039-4741-ef22-9f59e7585edf"
+      },
+      "source": [
+        "predict(25.3)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "412.6402335443163"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 32
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 542
+        },
+        "id": "dN_aRN9qme5m",
+        "outputId": "a2dde9cb-1442-4df3-87a5-a114d2a56a30"
+      },
+      "source": [
+        "fig = px.scatter(dados,  x='Temperatura (°C)', y='Ganho de peso (g)', trendline='ols')\n",
+        "fig.show()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/html": [
+              "<html>\n",
+              "<head><meta charset=\"utf-8\" /></head>\n",
+              "<body>\n",
+              "    <div>\n",
+              "            <script src=\"https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG\"></script><script type=\"text/javascript\">if (window.MathJax) {MathJax.Hub.Config({SVG: {font: \"STIX-Web\"}});}</script>\n",
+              "                <script type=\"text/javascript\">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>\n",
+              "        <script src=\"https://cdn.plot.ly/plotly-latest.min.js\"></script>    \n",
+              "            <div id=\"95ecf7b6-5c1e-4766-b2c3-d42c66054887\" class=\"plotly-graph-div\" style=\"height:525px; width:100%;\"></div>\n",
+              "            <script type=\"text/javascript\">\n",
+              "                \n",
+              "                    window.PLOTLYENV=window.PLOTLYENV || {};\n",
+              "                    \n",
+              "                if (document.getElementById(\"95ecf7b6-5c1e-4766-b2c3-d42c66054887\")) {\n",
+              "                    Plotly.newPlot(\n",
+              "                        '95ecf7b6-5c1e-4766-b2c3-d42c66054887',\n",
+              "                        [{\"hoverlabel\": {\"namelength\": 0}, \"hovertemplate\": \"Temperatura (\\u00b0C)=%{x}<br>Ganho de peso (g)=%{y}\", \"legendgroup\": \"\", \"marker\": {\"color\": \"#636efa\", \"symbol\": \"circle\"}, \"mode\": \"markers\", \"name\": \"\", \"showlegend\": false, \"type\": \"scatter\", \"x\": [25.4324177985231, 25.6762725765241, 26.0799553487822, 27.776376413543, 28.2430191059797, 28.876681316586527, 28.277457363567066, 28.74935270415123, 24.9476198805252, 28.31316661569903, 31.4044074096737, 28.898925502271823, 28.6521108116266, 27.9845612947757, 27.3150886424422, 29.4808228618842, 29.2834916125441, 31.1029974665041, 31.96342827564265, 30.009708883711003, 27.219915425972975, 26.0390847707349, 25.169809459322, 26.8935065683413, 27.84546248654158], \"xaxis\": \"x\", \"y\": [573.8941222866509, 425.849962633034, 664.4002085478979, 1840.9614989398801, 1210.27077296296, 1397.17576393261, 831.7096295122569, 1069.38382090972, 264.48506023012396, 1007.0760863959199, 2117.99461950455, 639.877395331803, 1295.19273846652, 960.0826514885221, 750.021146470691, 1605.64877061902, 1776.45686012993, 2143.89294314845, 2059.68694025636, 1482.36662166769, 1393.1951003816, 586.200607147161, 466.880561405272, 521.809699559495, 1032.1677359064], \"yaxis\": \"y\"}, {\"hoverlabel\": {\"namelength\": 0}, \"hovertemplate\": \"<b>OLS trendline</b><br>Ganho de peso (g) = 257.474659 * Temperatura (\\u00b0C) + -6101.468636<br>R<sup>2</sup>=0.744426<br><br>Temperatura (\\u00b0C)=%{x}<br>Ganho de peso (g)=%{y} <b>(trend)</b>\", \"legendgroup\": \"\", \"marker\": {\"color\": \"#636efa\", \"symbol\": \"circle\"}, \"mode\": \"lines\", \"name\": \"\", \"showlegend\": false, \"type\": \"scatter\", \"x\": [24.9476198805252, 25.169809459322, 25.4324177985231, 25.6762725765241, 26.0390847707349, 26.0799553487822, 26.8935065683413, 27.219915425972975, 27.3150886424422, 27.776376413543, 27.84546248654158, 27.9845612947757, 28.2430191059797, 28.277457363567066, 28.31316661569903, 28.6521108116266, 28.74935270415123, 28.876681316586527, 28.898925502271823, 29.2834916125441, 29.4808228618842, 30.009708883711003, 31.1029974665041, 31.4044074096737, 31.96342827564265], \"xaxis\": \"x\", \"y\": [321.91128248463883, 379.1194684931761, 446.7344610493701, 509.5208868326863, 602.9358327764785, 613.4589709176453, 822.927793659207, 906.9698029350075, 931.4744943804217, 1050.244405892483, 1068.0323189715054, 1103.846737172913, 1170.3930739488605, 1179.2600525737662, 1188.454280085487, 1275.723821313033, 1300.7611444201575, 1333.545035473252, 1339.2723495947512, 1438.2883776558874, 1489.096173767106, 1625.2709218260761, 1906.7650267437375, 1984.3704490459158, 2128.3041558209416], \"yaxis\": \"y\"}],\n",
+              "                        {\"legend\": {\"tracegroupgap\": 0}, \"margin\": {\"t\": 60}, \"template\": {\"data\": {\"bar\": [{\"error_x\": {\"color\": \"#2a3f5f\"}, \"error_y\": {\"color\": \"#2a3f5f\"}, \"marker\": {\"line\": {\"color\": \"#E5ECF6\", \"width\": 0.5}}, \"type\": \"bar\"}], \"barpolar\": [{\"marker\": {\"line\": {\"color\": \"#E5ECF6\", \"width\": 0.5}}, \"type\": \"barpolar\"}], \"carpet\": [{\"aaxis\": {\"endlinecolor\": \"#2a3f5f\", \"gridcolor\": \"white\", \"linecolor\": \"white\", \"minorgridcolor\": \"white\", \"startlinecolor\": \"#2a3f5f\"}, \"baxis\": {\"endlinecolor\": \"#2a3f5f\", \"gridcolor\": \"white\", \"linecolor\": \"white\", \"minorgridcolor\": \"white\", \"startlinecolor\": \"#2a3f5f\"}, \"type\": \"carpet\"}], \"choropleth\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"type\": \"choropleth\"}], \"contour\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"contour\"}], \"contourcarpet\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"type\": \"contourcarpet\"}], \"heatmap\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"heatmap\"}], \"heatmapgl\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"heatmapgl\"}], \"histogram\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"histogram\"}], \"histogram2d\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"histogram2d\"}], \"histogram2dcontour\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"histogram2dcontour\"}], \"mesh3d\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"type\": \"mesh3d\"}], \"parcoords\": [{\"line\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"parcoords\"}], \"pie\": [{\"automargin\": true, \"type\": \"pie\"}], \"scatter\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatter\"}], \"scatter3d\": [{\"line\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatter3d\"}], \"scattercarpet\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattercarpet\"}], \"scattergeo\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattergeo\"}], \"scattergl\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattergl\"}], \"scattermapbox\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattermapbox\"}], \"scatterpolar\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatterpolar\"}], \"scatterpolargl\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatterpolargl\"}], \"scatterternary\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatterternary\"}], \"surface\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"surface\"}], \"table\": [{\"cells\": {\"fill\": {\"color\": \"#EBF0F8\"}, \"line\": {\"color\": \"white\"}}, \"header\": {\"fill\": {\"color\": \"#C8D4E3\"}, \"line\": {\"color\": \"white\"}}, \"type\": \"table\"}]}, \"layout\": {\"annotationdefaults\": {\"arrowcolor\": \"#2a3f5f\", \"arrowhead\": 0, \"arrowwidth\": 1}, \"coloraxis\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"colorscale\": {\"diverging\": [[0, \"#8e0152\"], [0.1, \"#c51b7d\"], [0.2, \"#de77ae\"], [0.3, \"#f1b6da\"], [0.4, \"#fde0ef\"], [0.5, \"#f7f7f7\"], [0.6, \"#e6f5d0\"], [0.7, \"#b8e186\"], [0.8, \"#7fbc41\"], [0.9, \"#4d9221\"], [1, \"#276419\"]], \"sequential\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"sequentialminus\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]]}, \"colorway\": [\"#636efa\", \"#EF553B\", \"#00cc96\", \"#ab63fa\", \"#FFA15A\", \"#19d3f3\", \"#FF6692\", \"#B6E880\", \"#FF97FF\", \"#FECB52\"], \"font\": {\"color\": \"#2a3f5f\"}, \"geo\": {\"bgcolor\": \"white\", \"lakecolor\": \"white\", \"landcolor\": \"#E5ECF6\", \"showlakes\": true, \"showland\": true, \"subunitcolor\": \"white\"}, \"hoverlabel\": {\"align\": \"left\"}, \"hovermode\": \"closest\", \"mapbox\": {\"style\": \"light\"}, \"paper_bgcolor\": \"white\", \"plot_bgcolor\": \"#E5ECF6\", \"polar\": {\"angularaxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}, \"bgcolor\": \"#E5ECF6\", \"radialaxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}}, \"scene\": {\"xaxis\": {\"backgroundcolor\": \"#E5ECF6\", \"gridcolor\": \"white\", \"gridwidth\": 2, \"linecolor\": \"white\", \"showbackground\": true, \"ticks\": \"\", \"zerolinecolor\": \"white\"}, \"yaxis\": {\"backgroundcolor\": \"#E5ECF6\", \"gridcolor\": \"white\", \"gridwidth\": 2, \"linecolor\": \"white\", \"showbackground\": true, \"ticks\": \"\", \"zerolinecolor\": \"white\"}, \"zaxis\": {\"backgroundcolor\": \"#E5ECF6\", \"gridcolor\": \"white\", \"gridwidth\": 2, \"linecolor\": \"white\", \"showbackground\": true, \"ticks\": \"\", \"zerolinecolor\": \"white\"}}, \"shapedefaults\": {\"line\": {\"color\": \"#2a3f5f\"}}, \"ternary\": {\"aaxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}, \"baxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}, \"bgcolor\": \"#E5ECF6\", \"caxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}}, \"title\": {\"x\": 0.05}, \"xaxis\": {\"automargin\": true, \"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\", \"title\": {\"standoff\": 15}, \"zerolinecolor\": \"white\", \"zerolinewidth\": 2}, \"yaxis\": {\"automargin\": true, \"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\", \"title\": {\"standoff\": 15}, \"zerolinecolor\": \"white\", \"zerolinewidth\": 2}}}, \"xaxis\": {\"anchor\": \"y\", \"domain\": [0.0, 1.0], \"title\": {\"text\": \"Temperatura (\\u00b0C)\"}}, \"yaxis\": {\"anchor\": \"x\", \"domain\": [0.0, 1.0], \"title\": {\"text\": \"Ganho de peso (g)\"}}},\n",
+              "                        {\"responsive\": true}\n",
+              "                    ).then(function(){\n",
+              "                            \n",
+              "var gd = document.getElementById('95ecf7b6-5c1e-4766-b2c3-d42c66054887');\n",
+              "var x = new MutationObserver(function (mutations, observer) {{\n",
+              "        var display = window.getComputedStyle(gd).display;\n",
+              "        if (!display || display === 'none') {{\n",
+              "            console.log([gd, 'removed!']);\n",
+              "            Plotly.purge(gd);\n",
+              "            observer.disconnect();\n",
+              "        }}\n",
+              "}});\n",
+              "\n",
+              "// Listen for the removal of the full notebook cells\n",
+              "var notebookContainer = gd.closest('#notebook-container');\n",
+              "if (notebookContainer) {{\n",
+              "    x.observe(notebookContainer, {childList: true});\n",
+              "}}\n",
+              "\n",
+              "// Listen for the clearing of the current output cell\n",
+              "var outputEl = gd.closest('.output');\n",
+              "if (outputEl) {{\n",
+              "    x.observe(outputEl, {childList: true});\n",
+              "}}\n",
+              "\n",
+              "                        })\n",
+              "                };\n",
+              "                \n",
+              "            </script>\n",
+              "        </div>\n",
+              "</body>\n",
+              "</html>"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Vav4M2CPnt9g"
+      },
+      "source": [
+        "fig.write_html('regressão.html')"
+      ],
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
